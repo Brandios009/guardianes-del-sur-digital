@@ -1,16 +1,40 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useGame } from "@/store/game";
+import { RegisterScreen } from "@/screens/RegisterScreen";
+import { MapScreen } from "@/screens/MapScreen";
+import { LoadingScreen } from "@/screens/LoadingScreen";
+import { ParticleCanvas } from "@/components/ParticleCanvas";
+import { WorldToggle } from "@/components/WorldToggle";
+import { Notif } from "@/components/Notif";
+import { useEffect } from "react";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const screen = useGame((s) => s.screen);
+  const unlocked = useGame((s) => s.unlocked);
+
+  // Apply world theme to <body>
+  useEffect(() => {
+    document.body.classList.toggle("world-vital", unlocked);
+  }, [unlocked]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="relative min-h-screen w-full bg-background text-foreground overflow-x-hidden">
+      {/* Atmospheric layers */}
+      <div className="fixed inset-0 z-0 pixel-grid pointer-events-none" />
+      <div className="fixed inset-0 z-[1] scanlines pointer-events-none" />
+      <ParticleCanvas />
+
+      {/* Floating utilities */}
+      <WorldToggle />
+      <Notif />
+
+      {/* Active screen */}
+      <main className="relative z-10">
+        {screen === "register" && <RegisterScreen />}
+        {screen === "map" && <MapScreen />}
+        {screen === "loading" && <LoadingScreen />}
+      </main>
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
