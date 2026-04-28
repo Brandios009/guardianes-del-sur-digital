@@ -15,7 +15,7 @@ export const MapScreen = () => {
 
   const [hovered, setHovered] = useState<LocationKey | null>(null);
 
-  const completed = locations.filter((l) => l.status === "done").length;
+  const completed = locations.filter((l) => l.status === "unlocked").length;
   const rank =
     completed === 4
       ? "Guardián Eterno"
