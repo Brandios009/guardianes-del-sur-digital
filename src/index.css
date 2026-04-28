@@ -3,120 +3,122 @@
 @tailwind utilities;
 
 /* =====================================================
-   GUARDIANES DEL SUR — DESIGN SYSTEM DUAL
-   Decadente (bloqueado) ↔ Vital (despertado)
-   Inspirado en el colibrí guerrero y el folklore andino.
-   Todos los colores en HSL.
+   GUARDIANES DEL SUR — DESIGN SYSTEM DUAL · COLIBRÍ AZUL
+   Decadente (sellado) ↔ Vital (despertado)
+   100% pixel-art. Press Start 2P en TODO.
+   Paleta basada en el colibrí azul guerrero.
 ===================================================== */
 
 @layer base {
   :root {
-    /* ESTADO DECADENTE (default) */
-    --background: 270 12% 6%;
-    --foreground: 12 18% 75%;
+    /* ===== ESTADO DECADENTE — colibrí oscurecido ===== */
+    /* Mismo croma azul/teal/púrpura pero hundido en sombra */
+    --background: 222 45% 5%;
+    --foreground: 200 25% 70%;
 
-    --card: 270 14% 10%;
-    --card-foreground: 12 18% 75%;
+    --card: 220 35% 9%;
+    --card-foreground: 200 25% 75%;
 
-    --popover: 270 14% 10%;
-    --popover-foreground: 12 18% 75%;
+    --popover: 220 35% 9%;
+    --popover-foreground: 200 25% 75%;
 
-    --primary: 0 64% 32%;            /* sangre/ember */
-    --primary-foreground: 30 30% 92%;
+    --primary: 220 50% 22%;
+    --primary-foreground: 195 60% 90%;
 
-    --secondary: 270 10% 16%;
-    --secondary-foreground: 12 18% 75%;
+    --secondary: 222 30% 14%;
+    --secondary-foreground: 200 25% 75%;
 
-    --muted: 270 8% 14%;
-    --muted-foreground: 10 12% 55%;
+    --muted: 222 25% 12%;
+    --muted-foreground: 215 15% 50%;
 
-    --accent: 14 75% 44%;            /* ember */
-    --accent-foreground: 30 30% 95%;
+    --accent: 195 55% 35%;             /* teal apagado */
+    --accent-foreground: 195 80% 95%;
 
-    --destructive: 0 70% 40%;
-    --destructive-foreground: 30 30% 95%;
+    --destructive: 350 55% 38%;
+    --destructive-foreground: 195 60% 95%;
 
-    --border: 8 10% 28%;
-    --input: 8 10% 22%;
-    --ring: 14 75% 44%;
+    --border: 215 30% 22%;
+    --input: 220 35% 12%;
+    --ring: 195 55% 40%;
 
-    --radius: 0.25rem;
+    --radius: 0.125rem;
 
-    /* Tokens de marca colibrí */
-    --hb-teal: 184 70% 48%;
-    --hb-jade: 150 55% 48%;
-    --hb-sky: 200 80% 60%;
-    --hb-deep: 220 70% 30%;
-    --hb-purple: 280 55% 55%;
+    /* Tokens de marca colibrí (constantes — siempre vivos) */
+    --hb-teal: 184 80% 50%;
+    --hb-jade: 160 70% 45%;
+    --hb-sky: 200 90% 60%;
+    --hb-deep: 220 80% 32%;
+    --hb-purple: 270 60% 55%;
+    --hb-violet: 250 60% 45%;
     --hb-gold: 42 95% 58%;
     --hb-sun: 50 95% 65%;
     --hb-coral: 18 90% 60%;
     --hb-flower: 330 70% 65%;
 
     /* Aliases dinámicos */
-    --surface: 270 14% 12%;
-    --surface-2: 270 12% 16%;
-    --ink: 12 18% 75%;
-    --ink-soft: 10 12% 55%;
-    --ink-mute: 8 10% 40%;
-    --glow: 14 75% 44%;
-    --hero-tint: 270 60% 8%;
-    --dust: 8 25% 35%;
+    --surface: 220 35% 10%;
+    --surface-2: 222 30% 14%;
+    --ink: 200 25% 75%;
+    --ink-soft: 210 20% 60%;
+    --ink-mute: 215 15% 42%;
+    --glow: 195 55% 38%;
+    --hero-tint: 220 60% 10%;
+    --dust: 215 25% 35%;
 
     /* Gradientes y sombras */
-    --gradient-hero: linear-gradient(180deg, hsl(var(--hero-tint) / 0.1) 0%, hsl(var(--background) / 0.95) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--primary)) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(var(--hero-tint) / 0.5) 0%, hsl(var(--background) / 0.95) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--hb-violet)) 100%);
     --shadow-pixel: 4px 4px 0 hsl(var(--background));
     --shadow-pixel-lg: 6px 6px 0 hsl(var(--background)), 6px 6px 0 1px hsl(var(--border));
-    --shadow-glow: 0 0 24px hsl(var(--glow) / 0.45), 0 0 4px hsl(var(--glow) / 0.8);
+    --shadow-glow: 0 0 24px hsl(var(--glow) / 0.5), 0 0 4px hsl(var(--glow) / 0.9);
 
     --transition-world: background 1.4s cubic-bezier(0.2, 0.9, 0.4, 1),
                         color 0.8s ease,
                         border-color 0.8s ease;
   }
 
-  /* ESTADO DESBLOQUEADO (todos los destinos liberados) */
+  /* ===== ESTADO VITAL — colibrí en pleno color ===== */
   .world-vital {
-    --background: 155 50% 8%;
-    --foreground: 80 60% 90%;
+    --background: 205 70% 10%;
+    --foreground: 190 90% 95%;
 
-    --card: 152 40% 12%;
-    --card-foreground: 80 60% 92%;
+    --card: 200 60% 14%;
+    --card-foreground: 190 90% 95%;
 
-    --popover: 152 40% 12%;
-    --popover-foreground: 80 60% 92%;
+    --popover: 200 60% 14%;
+    --popover-foreground: 190 90% 95%;
 
     --primary: 42 95% 58%;
-    --primary-foreground: 155 50% 8%;
+    --primary-foreground: 220 70% 10%;
 
-    --secondary: 152 35% 18%;
-    --secondary-foreground: 80 60% 92%;
+    --secondary: 200 50% 22%;
+    --secondary-foreground: 190 90% 95%;
 
-    --muted: 152 30% 16%;
-    --muted-foreground: 150 30% 70%;
+    --muted: 200 40% 18%;
+    --muted-foreground: 195 50% 75%;
 
-    --accent: 184 70% 48%;
-    --accent-foreground: 155 50% 8%;
+    --accent: 184 80% 50%;             /* teal vibrante colibrí */
+    --accent-foreground: 220 70% 8%;
 
     --destructive: 18 90% 60%;
-    --destructive-foreground: 155 50% 8%;
+    --destructive-foreground: 220 70% 8%;
 
-    --border: 150 45% 32%;
-    --input: 152 35% 18%;
+    --border: 184 60% 38%;
+    --input: 200 50% 18%;
     --ring: 42 95% 58%;
 
-    --surface: 152 40% 12%;
-    --surface-2: 150 35% 18%;
-    --ink: 80 60% 92%;
-    --ink-soft: 150 35% 78%;
-    --ink-mute: 150 25% 60%;
+    --surface: 200 60% 14%;
+    --surface-2: 200 50% 22%;
+    --ink: 190 90% 95%;
+    --ink-soft: 190 70% 80%;
+    --ink-mute: 190 40% 65%;
     --glow: 42 95% 58%;
-    --hero-tint: 184 70% 20%;
-    --dust: 80 70% 75%;
+    --hero-tint: 184 80% 22%;
+    --dust: 50 95% 75%;
 
-    --gradient-hero: linear-gradient(180deg, hsl(var(--hb-sky) / 0.15) 0%, hsl(var(--background) / 0.92) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(var(--hb-gold)) 0%, hsl(var(--hb-coral)) 100%);
-    --shadow-glow: 0 0 32px hsl(var(--glow) / 0.55), 0 0 6px hsl(var(--glow) / 0.9);
+    --gradient-hero: linear-gradient(180deg, hsl(var(--hb-sky) / 0.25) 0%, hsl(var(--background) / 0.92) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--hb-teal)) 0%, hsl(var(--hb-gold)) 100%);
+    --shadow-glow: 0 0 32px hsl(var(--glow) / 0.6), 0 0 6px hsl(var(--glow) / 0.95);
   }
 }
 
@@ -132,8 +134,10 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'IM Fell English', serif;
-    font-size: 17px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
     transition: var(--transition-world);
     overflow-x: hidden;
     cursor: crosshair;
@@ -148,10 +152,10 @@
 }
 
 @layer components {
-  /* Tipografías */
+  /* === Tipografía: TODO pixel === */
   .font-pixel { font-family: 'Press Start 2P', monospace; letter-spacing: 0.05em; }
-  .font-title { font-family: 'Cinzel Decorative', serif; }
-  .font-body  { font-family: 'IM Fell English', serif; }
+  .font-title { font-family: 'Press Start 2P', monospace; letter-spacing: 0.08em; }
+  .font-body  { font-family: 'Press Start 2P', monospace; letter-spacing: 0.02em; line-height: 1.8; }
 
   /* Botón pixel principal */
   .btn-pixel {
@@ -159,33 +163,83 @@
     font-size: 10px;
     background: hsl(var(--accent));
     color: hsl(var(--accent-foreground));
-    border: 2px solid hsl(var(--primary));
-    box-shadow: 0 5px 0 hsl(var(--primary) / 0.6), 5px 5px 0 hsl(var(--background));
+    border: 2px solid hsl(var(--hb-deep));
+    box-shadow:
+      0 5px 0 hsl(var(--hb-deep) / 0.85),
+      5px 5px 0 hsl(var(--background)),
+      inset 0 0 0 2px hsl(var(--accent) / 0.4);
     position: relative;
     top: 0;
+    text-shadow: 1px 1px 0 hsl(var(--hb-deep));
   }
-  .btn-pixel:hover { transform: translate(-1px, -1px); box-shadow: 0 6px 0 hsl(var(--primary) / 0.6), 6px 6px 0 hsl(var(--background)); }
-  .btn-pixel:active { top: 4px; box-shadow: 0 1px 0 hsl(var(--primary) / 0.6), 2px 2px 0 hsl(var(--background)); }
+  .btn-pixel:hover {
+    transform: translate(-1px, -1px);
+    box-shadow:
+      0 6px 0 hsl(var(--hb-deep) / 0.85),
+      6px 6px 0 hsl(var(--background)),
+      0 0 18px hsl(var(--accent) / 0.5);
+  }
+  .btn-pixel:active {
+    top: 4px;
+    box-shadow:
+      0 1px 0 hsl(var(--hb-deep) / 0.85),
+      2px 2px 0 hsl(var(--background));
+  }
 
   .btn-ghost-pixel {
     @apply font-pixel uppercase inline-flex items-center justify-center gap-2 px-5 py-3 transition-all;
     font-size: 9px;
-    background: transparent;
+    background: hsl(var(--surface));
     color: hsl(var(--foreground));
     border: 2px solid hsl(var(--border));
     box-shadow: 3px 3px 0 hsl(var(--background));
   }
-  .btn-ghost-pixel:hover { background: hsl(var(--surface-2)); border-color: hsl(var(--accent)); color: hsl(var(--accent)); }
+  .btn-ghost-pixel:hover {
+    background: hsl(var(--surface-2));
+    border-color: hsl(var(--accent));
+    color: hsl(var(--accent));
+    box-shadow: 3px 3px 0 hsl(var(--background)), 0 0 12px hsl(var(--accent) / 0.4);
+  }
+
+  .btn-gold-pixel {
+    @apply font-pixel uppercase inline-flex items-center justify-center gap-2 px-6 py-3 transition-all;
+    font-size: 10px;
+    background: hsl(var(--hb-gold));
+    color: hsl(var(--hb-deep));
+    border: 2px solid hsl(var(--hb-coral));
+    box-shadow:
+      0 5px 0 hsl(var(--hb-coral) / 0.9),
+      5px 5px 0 hsl(var(--background));
+    position: relative;
+    text-shadow: 1px 1px 0 hsl(var(--hb-sun));
+  }
+  .btn-gold-pixel:hover {
+    transform: translate(-1px, -1px);
+    box-shadow:
+      0 6px 0 hsl(var(--hb-coral) / 0.9),
+      6px 6px 0 hsl(var(--background)),
+      0 0 24px hsl(var(--hb-gold) / 0.6);
+  }
 
   /* Panel pixel */
   .panel-pixel {
     background: hsl(var(--surface));
     border: 2px solid hsl(var(--border));
-    box-shadow: 6px 6px 0 hsl(var(--background));
+    box-shadow:
+      6px 6px 0 hsl(var(--background)),
+      inset 0 0 0 1px hsl(var(--accent) / 0.08);
   }
   .panel-deep {
     background: hsl(var(--background));
     border: 2px solid hsl(var(--border));
+  }
+  .panel-glow {
+    background: hsl(var(--surface));
+    border: 2px solid hsl(var(--accent));
+    box-shadow:
+      6px 6px 0 hsl(var(--background)),
+      0 0 24px hsl(var(--accent) / 0.35),
+      inset 0 0 0 1px hsl(var(--accent) / 0.4);
   }
 
   /* Input pixel */
@@ -214,14 +268,14 @@
   /* Capas atmosféricas */
   .pixel-grid {
     background-image:
-      linear-gradient(hsl(var(--foreground) / 0.025) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--foreground) / 0.025) 1px, transparent 1px);
-    background-size: 12px 12px;
+      linear-gradient(hsl(var(--accent) / 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--accent) / 0.04) 1px, transparent 1px);
+    background-size: 16px 16px;
   }
   .scanlines {
     background: repeating-linear-gradient(0deg,
       transparent, transparent 2px,
-      hsl(var(--background) / 0.18) 2px, hsl(var(--background) / 0.18) 3px);
+      hsl(var(--background) / 0.22) 2px, hsl(var(--background) / 0.22) 3px);
   }
 
   /* Vignette */
@@ -241,8 +295,13 @@
   }
 
   /* Glow text */
-  .text-glow { text-shadow: 0 0 12px hsl(var(--glow) / 0.7), 0 2px 0 hsl(var(--background)); }
+  .text-glow { text-shadow: 0 0 12px hsl(var(--glow) / 0.8), 0 2px 0 hsl(var(--background)); }
   .text-stroke { -webkit-text-stroke: 1px hsl(var(--background)); }
+  .text-pixel-shadow {
+    text-shadow:
+      2px 2px 0 hsl(var(--background)),
+      4px 4px 0 hsl(var(--hb-deep) / 0.6);
+  }
 }
 
 @layer utilities {
@@ -304,6 +363,14 @@
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-3px); }
 }
+@keyframes boss-breathe {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 24px hsl(var(--accent) / 0.5)); }
+  50%      { transform: scale(1.015); filter: drop-shadow(0 0 36px hsl(var(--accent) / 0.7)); }
+}
+@keyframes scan-line {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
 
 .animate-float-soft   { animation: float-soft 4.5s ease-in-out infinite; }
 .animate-flap         { animation: flap 0.45s ease-in-out infinite; transform-origin: center; }
@@ -314,7 +381,9 @@
 .animate-spark        { animation: spark 1.6s ease-in-out infinite; }
 .animate-title-rise   { animation: title-rise 0.8s ease-out both; }
 .animate-node-bob     { animation: node-bob 2.5s ease-in-out infinite; }
+.animate-boss-breathe { animation: boss-breathe 4s ease-in-out infinite; }
+.animate-scan-line    { animation: scan-line 3s linear infinite; }
 
-/* SVG-specific keyframes need to be at root */
+/* SVG-specific keyframes */
 .svg-pulse circle { animation: ring-pulse 1.6s ease-in-out infinite; }
 .svg-pulse-2 circle { animation: ring-pulse-2 2s ease-in-out infinite; }

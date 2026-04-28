@@ -27,16 +27,9 @@ export const LoadingScreen = () => {
       setProgress((p) => {
         if (p >= 100) {
           clearInterval(id);
-          // give a beat for the user to see "100%"
+          // Hand off to the boss screen instead of completing immediately
           setTimeout(() => {
-            completeLocation(loc.key);
-            const newCount = locations.filter((l) => l.status === "done").length + 1;
-            if (newCount === 4) {
-              showNotif("¡El sur ha despertado! Eres Guardián Eterno.");
-            } else {
-              showNotif(`${loc.name} ha sido liberado. Un nuevo destino brilla.`);
-            }
-            setScreen("map");
+            setScreen("boss");
           }, 700);
           return 100;
         }
@@ -54,12 +47,12 @@ export const LoadingScreen = () => {
       <div className="absolute inset-0 bg-hero-gradient pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-3xl animate-fade-in">
-        <p className="text-center eyebrow mb-2">— Destino sagrado —</p>
+        <p className="text-center eyebrow mb-3">— Destino sagrado —</p>
         <h2
-          className="text-center font-title font-bold text-ink mb-6"
-          style={{ fontSize: "clamp(34px, 5vw, 56px)" }}
+          className="text-center font-pixel text-ink mb-7 text-glow leading-tight"
+          style={{ fontSize: "clamp(18px, 3vw, 26px)" }}
         >
-          {loc.name}
+          ▸ {loc.name.toUpperCase()}
         </h2>
 
         {/* Cinematic stage */}
@@ -123,17 +116,19 @@ export const LoadingScreen = () => {
           </div>
         </div>
 
-        <p className="text-center font-pixel text-[8px] text-ink-mute uppercase mb-6">
-          📖 {loc.lore}
+        <p className="text-center font-pixel text-[8px] text-ink-mute uppercase mb-6 leading-loose">
+          ✦ {loc.lore} ✦
         </p>
 
         {/* Lore strip */}
-        <div className="panel-pixel px-6 py-4 text-center">
-          <p className="font-pixel text-[8px] text-accent uppercase mb-2">
+        <div className="panel-pixel px-6 py-5 text-center">
+          <p className="font-pixel text-[8px] text-accent uppercase mb-3">
             — Relato del abismo —
           </p>
-          <p className="font-body italic text-ink-soft">"{loc.myth}"</p>
-          <p className="font-body italic text-ink-mute text-sm mt-3">— {quote}</p>
+          <p className="font-pixel text-[9px] text-ink-soft normal-case" style={{ lineHeight: 2 }}>
+            "{loc.myth}"
+          </p>
+          <p className="font-pixel text-[7px] text-ink-mute mt-4 uppercase">— {quote} —</p>
         </div>
       </div>
     </section>

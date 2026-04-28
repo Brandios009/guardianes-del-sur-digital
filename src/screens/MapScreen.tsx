@@ -172,11 +172,11 @@ export const MapScreen = () => {
 
           {/* Floating tooltip on hover */}
           {hovered && (
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 panel-pixel px-4 py-2 pointer-events-none animate-fade-in">
-              <p className="font-pixel text-[8px] text-accent uppercase">
-                {locations.find((l) => l.key === hovered)?.name}
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 panel-pixel px-4 py-3 pointer-events-none animate-fade-in">
+              <p className="font-pixel text-[8px] text-accent uppercase mb-1">
+                ▸ {locations.find((l) => l.key === hovered)?.name}
               </p>
-              <p className="font-body italic text-xs text-ink-soft">
+              <p className="font-pixel text-[7px] text-ink-soft uppercase">
                 {locations.find((l) => l.key === hovered)?.subtitle}
               </p>
             </div>
@@ -203,10 +203,10 @@ export const MapScreen = () => {
               onMouseLeave={() => setHovered(null)}
               className="text-left px-5 py-4 border-b border-border-strong hover:bg-surface-2 transition-colors"
             >
-              <div className="font-pixel text-[9px] text-ink uppercase mb-1">
-                {loc.name}
+              <div className="font-pixel text-[9px] text-ink uppercase mb-2">
+                ▸ {loc.name}
               </div>
-              <div className="font-body italic text-sm text-ink-mute mb-2">
+              <div className="font-pixel text-[7px] text-ink-mute mb-3 uppercase leading-loose">
                 {loc.subtitle}
               </div>
               <StatusBadge status={loc.status} />
