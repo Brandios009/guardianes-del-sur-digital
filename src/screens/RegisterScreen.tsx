@@ -1,12 +1,38 @@
 import { FormEvent, useState } from "react";
 import { useGame } from "@/store/game";
 import { Colibri } from "@/components/Colibri";
-import { ChevronRight, Sparkles } from "lucide-react";
+import { ChevronRight, Sparkles, LogIn, UserPlus } from "lucide-react";
+
+type StoredPlayer = {
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  age: string;
+  city: string;
+};
+
+const STORAGE_KEY = "guardianes_players";
+
+const loadPlayers = (): Record<string, StoredPlayer> => {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+  } catch {
+    return {};
+  }
+};
+
+const savePlayers = (data: Record<string, StoredPlayer>) => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+};
 
 export const RegisterScreen = () => {
   const setPlayer = useGame((s) => s.setPlayer);
   const setScreen = useGame((s) => s.setScreen);
   const showNotif = useGame((s) => s.showNotif);
+
+  const [mode, setMode] = useState<"register" | "login">("register");
+  const [loginName, setLoginName] = useState("");
 
   const [form, setForm] = useState({
     username: "",
@@ -24,14 +50,46 @@ export const RegisterScreen = () => {
       showNotif("Acepta términos y condiciones para continuar el tour");
       return;
     }
-    setPlayer({
+    const uname = form.username.trim().toLowerCase();
+    if (!uname) {
+      showNotif("Ingresa un nombre de registro válido");
+      return;
+    }
+    const players = loadPlayers();
+    if (players[uname]) {
+      showNotif("Ese nombre ya existe. Inicia sesión.");
+      setMode("login");
+      setLoginName(form.username);
+      return;
+    }
+    const newPlayer: StoredPlayer = {
       username: form.username,
       firstName: form.firstName,
       lastName: form.lastName,
       email: form.email,
       age: form.age,
       city: form.city,
-    });
+    };
+    players[uname] = newPlayer;
+    savePlayers(players);
+    setPlayer(newPlayer);
+    setScreen("map");
+  };
+
+  const onLogin = (e: FormEvent) => {
+    e.preventDefault();
+    const uname = loginName.trim().toLowerCase();
+    if (!uname) {
+      showNotif("Ingresa tu nombre de registro");
+      return;
+    }
+    const players = loadPlayers();
+    const found = players[uname];
+    if (!found) {
+      showNotif("No existe un Guardián con ese nombre");
+      return;
+    }
+    setPlayer(found);
     setScreen("map");
   };
 
