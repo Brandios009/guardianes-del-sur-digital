@@ -56,23 +56,21 @@ export const RegisterScreen = () => {
           </div>
           <p className="eyebrow mb-3 animate-title-rise">— Nariño profundo · 2026 —</p>
           <h1
-            className="font-title font-bold leading-[0.95] mb-4 animate-title-rise"
-            style={{ animationDelay: "0.1s", fontSize: "clamp(38px, 7vw, 72px)" }}
+            className="font-pixel leading-[1.15] mb-5 animate-title-rise text-pixel-shadow"
+            style={{ animationDelay: "0.1s", fontSize: "clamp(22px, 4.2vw, 40px)" }}
           >
-            <span className="block text-ink text-stroke">GUARDIANES</span>
-            <span className="block bg-accent-gradient bg-clip-text text-transparent">
-              DEL SUR
-            </span>
+            <span className="block text-ink">GUARDIANES</span>
+            <span className="block text-accent text-glow">DEL SUR</span>
           </h1>
           <p
-            className="font-body italic text-lg text-ink-soft max-w-md mx-auto lg:mx-0 animate-title-rise"
-            style={{ animationDelay: "0.25s" }}
+            className="font-pixel text-[9px] text-ink-soft max-w-md mx-auto lg:mx-0 animate-title-rise normal-case"
+            style={{ animationDelay: "0.25s", lineHeight: 2 }}
           >
             Forja tu leyenda y despierta los destinos andinos. Cuatro santuarios
             sellados aguardan: Las Lajas, La Cocha, Galeras y Juanambú.
           </p>
 
-          <div className="mt-6 flex flex-wrap gap-3 justify-center lg:justify-start animate-title-rise" style={{ animationDelay: "0.4s" }}>
+          <div className="mt-7 flex flex-wrap gap-3 justify-center lg:justify-start animate-title-rise" style={{ animationDelay: "0.4s" }}>
             <Stat label="Destinos" value="4" />
             <Stat label="Mitos" value="∞" />
             <Stat label="Sur" value="Nariño" />
@@ -85,10 +83,10 @@ export const RegisterScreen = () => {
           className="panel-pixel p-6 sm:p-8 animate-scale-in"
           style={{ animationDelay: "0.2s" }}
         >
-          <h2 className="font-pixel text-[10px] text-accent flex items-center gap-2 mb-1">
+          <h2 className="font-pixel text-[10px] text-accent flex items-center gap-2 mb-2">
             <Sparkles className="w-3 h-3" /> ▸ DATOS DEL GUARDIÁN
           </h2>
-          <p className="font-body italic text-sm text-ink-mute mb-6">
+          <p className="font-pixel text-[8px] text-ink-mute mb-6 normal-case" style={{ lineHeight: 2 }}>
             Tu pacto será grabado en la piedra.
           </p>
 
@@ -161,7 +159,7 @@ export const RegisterScreen = () => {
                 </span>
               )}
             </span>
-            <span className="font-body text-sm text-ink-soft leading-snug">
+            <span className="font-pixel text-[8px] text-ink-soft leading-[2] normal-case">
               Juro honrar los mitos, los ríos y la naturaleza del sur, y
               caminaré con los pies descalzos sobre la memoria de mis abuelos.
             </span>
