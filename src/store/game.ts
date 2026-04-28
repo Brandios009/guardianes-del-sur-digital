@@ -57,7 +57,7 @@ interface GameState {
   setScreen: (s: Screen) => void;
 
   player: Player | null;
-  setPlayer: (p: Player) => void;
+  setPlayer: (p: Player | null) => void;
 
   unlocked: boolean;
   setUnlocked: (u: boolean) => void;
