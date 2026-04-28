@@ -13,8 +13,8 @@ export default {
     extend: {
       fontFamily: {
         pixel: ['"Press Start 2P"', "monospace"],
-        title: ['"Cinzel Decorative"', "serif"],
-        body: ['"IM Fell English"', "serif"],
+        title: ['"Press Start 2P"', "monospace"],
+        body: ['"Press Start 2P"', "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -57,6 +57,7 @@ export default {
           sky: "hsl(var(--hb-sky))",
           deep: "hsl(var(--hb-deep))",
           purple: "hsl(var(--hb-purple))",
+          violet: "hsl(var(--hb-violet))",
           gold: "hsl(var(--hb-gold))",
           sun: "hsl(var(--hb-sun))",
           coral: "hsl(var(--hb-coral))",
