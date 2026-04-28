@@ -1,389 +1,197 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
-/* =====================================================
-   GUARDIANES DEL SUR — DESIGN SYSTEM DUAL · COLIBRÍ AZUL
-   Decadente (sellado) ↔ Vital (despertado)
-   100% pixel-art. Press Start 2P en TODO.
-   Paleta basada en el colibrí azul guerrero.
-===================================================== */
+type RegisterFormValues = {
+  nombre: string;
+  edad: string;
+  genero: string;
+};
 
-@layer base {
-  :root {
-    /* ===== ESTADO DECADENTE — colibrí oscurecido ===== */
-    /* Mismo croma azul/teal/púrpura pero hundido en sombra */
-    --background: 222 45% 5%;
-    --foreground: 200 25% 70%;
+export default function RegisterScreen() {
+  const { register, handleSubmit } = useForm<RegisterFormValues>();
+  const [error, setError] = useState<string | null>(null);
 
-    --card: 220 35% 9%;
-    --card-foreground: 200 25% 75%;
+  const onSubmit = (data: RegisterFormValues) => {
+    setError(null);
+    console.log("Registro enviado", data);
+    // Mantén aquí la lógica original de envío
+  };
 
-    --popover: 220 35% 9%;
-    --popover-foreground: 200 25% 75%;
+  return (
+    <main className="pixel-page">
+      <section className="pixel-panel">
+        <div className="pixel-title">Registro Guardianes del Sur</div>
 
-    --primary: 220 50% 22%;
-    --primary-foreground: 195 60% 90%;
+        <div className="flex flex-col items-center gap-6 mb-6">
+          <img
+            src="/assets/sprites/colibri_idle.gif"
+            alt="Colibrí guardián"
+            className="w-32 h-32 image-rendering-pixelated"
+            onError={(event) => {
+              event.currentTarget.src =
+                "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Crect width='128' height='128' fill='%2300ffff'/%3E%3C/svg%3E";
+            }}
+          />
+          <p className="text-center text-sm text-slate-300">
+            Completa tus datos para comenzar la aventura en el sur de Nariño.
+          </p>
+        </div>
 
-    --secondary: 222 30% 14%;
-    --secondary-foreground: 200 25% 75%;
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="grid gap-2">
+            <Label htmlFor="nombre">Nombre</Label>
+            <Input
+              id="nombre"
+              {...register("nombre", { required: true })}
+              className="pixel-input w-full"
+            />
+          </div>
 
-    --muted: 222 25% 12%;
-    --muted-foreground: 215 15% 50%;
+          <div className="grid gap-2">
+            <Label htmlFor="edad">Edad</Label>
+            <Input
+              id="edad"
+              type="number"
+              {...register("edad", { required: true, min: 10 })}
+              className="pixel-input w-full"
+            />
+          </div>
 
-    --accent: 195 55% 35%;             /* teal apagado */
-    --accent-foreground: 195 80% 95%;
+          <div className="grid gap-2">
+            <Label htmlFor="genero">Género</Label>
+            <select
+              id="genero"
+              {...register("genero", { required: true })}
+              className="pixel-select w-full rounded-none"
+            >
+              <option value="">Selecciona</option>
+              <option value="masculino">Masculino</option>
+              <option value="femenino">Femenino</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
 
-    --destructive: 350 55% 38%;
-    --destructive-foreground: 195 60% 95%;
+          {error && (
+            <div className="text-sm text-red-400 border border-red-500 p-3 rounded-md">
+              {error}
+            </div>
+          )}
 
-    --border: 215 30% 22%;
-    --input: 220 35% 12%;
-    --ring: 195 55% 40%;
+          <Button type="submit" className="pixel-btn w-full">
+            Comenzar
+          </Button>
+        </form>
 
-    --radius: 0.125rem;
-
-    /* Tokens de marca colibrí (constantes — siempre vivos) */
-    --hb-teal: 184 80% 50%;
-    --hb-jade: 160 70% 45%;
-    --hb-sky: 200 90% 60%;
-    --hb-deep: 220 80% 32%;
-    --hb-purple: 270 60% 55%;
-    --hb-violet: 250 60% 45%;
-    --hb-gold: 42 95% 58%;
-    --hb-sun: 50 95% 65%;
-    --hb-coral: 18 90% 60%;
-    --hb-flower: 330 70% 65%;
-
-    /* Aliases dinámicos */
-    --surface: 220 35% 10%;
-    --surface-2: 222 30% 14%;
-    --ink: 200 25% 75%;
-    --ink-soft: 210 20% 60%;
-    --ink-mute: 215 15% 42%;
-    --glow: 195 55% 38%;
-    --hero-tint: 220 60% 10%;
-    --dust: 215 25% 35%;
-
-    /* Gradientes y sombras */
-    --gradient-hero: linear-gradient(180deg, hsl(var(--hero-tint) / 0.5) 0%, hsl(var(--background) / 0.95) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--hb-violet)) 100%);
-    --shadow-pixel: 4px 4px 0 hsl(var(--background));
-    --shadow-pixel-lg: 6px 6px 0 hsl(var(--background)), 6px 6px 0 1px hsl(var(--border));
-    --shadow-glow: 0 0 24px hsl(var(--glow) / 0.5), 0 0 4px hsl(var(--glow) / 0.9);
-
-    --transition-world: background 1.4s cubic-bezier(0.2, 0.9, 0.4, 1),
-                        color 0.8s ease,
-                        border-color 0.8s ease;
-  }
-
-  /* ===== ESTADO VITAL — colibrí en pleno color ===== */
-  .world-vital {
-    --background: 205 70% 10%;
-    --foreground: 190 90% 95%;
-
-    --card: 200 60% 14%;
-    --card-foreground: 190 90% 95%;
-
-    --popover: 200 60% 14%;
-    --popover-foreground: 190 90% 95%;
-
-    --primary: 42 95% 58%;
-    --primary-foreground: 220 70% 10%;
-
-    --secondary: 200 50% 22%;
-    --secondary-foreground: 190 90% 95%;
-
-    --muted: 200 40% 18%;
-    --muted-foreground: 195 50% 75%;
-
-    --accent: 184 80% 50%;             /* teal vibrante colibrí */
-    --accent-foreground: 220 70% 8%;
-
-    --destructive: 18 90% 60%;
-    --destructive-foreground: 220 70% 8%;
-
-    --border: 184 60% 38%;
-    --input: 200 50% 18%;
-    --ring: 42 95% 58%;
-
-    --surface: 200 60% 14%;
-    --surface-2: 200 50% 22%;
-    --ink: 190 90% 95%;
-    --ink-soft: 190 70% 80%;
-    --ink-mute: 190 40% 65%;
-    --glow: 42 95% 58%;
-    --hero-tint: 184 80% 22%;
-    --dust: 50 95% 75%;
-
-    --gradient-hero: linear-gradient(180deg, hsl(var(--hb-sky) / 0.25) 0%, hsl(var(--background) / 0.92) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(var(--hb-teal)) 0%, hsl(var(--hb-gold)) 100%);
-    --shadow-glow: 0 0 32px hsl(var(--glow) / 0.6), 0 0 6px hsl(var(--glow) / 0.95);
-  }
+        <div className="pixel-ticker">
+          Bienvenido al universo Guardianes del Sur • Las Lajas, La Cocha, Galeras y Juanambú te esperan
+        </div>
+      </section>
+    </main>
+  );
 }
 
-@layer base {
-  * {
-    @apply border-border;
-    image-rendering: pixelated;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 11px;
-    line-height: 1.7;
-    letter-spacing: 0.02em;
-    transition: var(--transition-world);
-    overflow-x: hidden;
-    cursor: crosshair;
-  }
-
-  img, svg { image-rendering: pixelated; }
-
-  ::selection {
-    background: hsl(var(--accent));
-    color: hsl(var(--accent-foreground));
-  }
+:root {
+  --pixel-bg: #0b0b1f;
+  --pixel-panel: rgba(0, 31, 51, 0.95);
+  --pixel-text: #8affff;
+  --pixel-border: #16ffea;
+  --pixel-accent: #ff3d3d;
+  --pixel-secondary: #18d9a4;
 }
 
-@layer components {
-  /* === Tipografía: TODO pixel === */
-  .font-pixel { font-family: 'Press Start 2P', monospace; letter-spacing: 0.05em; }
-  .font-title { font-family: 'Press Start 2P', monospace; letter-spacing: 0.08em; }
-  .font-body  { font-family: 'Press Start 2P', monospace; letter-spacing: 0.02em; line-height: 1.8; }
-
-  /* Botón pixel principal */
-  .btn-pixel {
-    @apply font-pixel uppercase inline-flex items-center justify-center gap-2 px-6 py-3 transition-all;
-    font-size: 10px;
-    background: hsl(var(--accent));
-    color: hsl(var(--accent-foreground));
-    border: 2px solid hsl(var(--hb-deep));
-    box-shadow:
-      0 5px 0 hsl(var(--hb-deep) / 0.85),
-      5px 5px 0 hsl(var(--background)),
-      inset 0 0 0 2px hsl(var(--accent) / 0.4);
-    position: relative;
-    top: 0;
-    text-shadow: 1px 1px 0 hsl(var(--hb-deep));
-  }
-  .btn-pixel:hover {
-    transform: translate(-1px, -1px);
-    box-shadow:
-      0 6px 0 hsl(var(--hb-deep) / 0.85),
-      6px 6px 0 hsl(var(--background)),
-      0 0 18px hsl(var(--accent) / 0.5);
-  }
-  .btn-pixel:active {
-    top: 4px;
-    box-shadow:
-      0 1px 0 hsl(var(--hb-deep) / 0.85),
-      2px 2px 0 hsl(var(--background));
-  }
-
-  .btn-ghost-pixel {
-    @apply font-pixel uppercase inline-flex items-center justify-center gap-2 px-5 py-3 transition-all;
-    font-size: 9px;
-    background: hsl(var(--surface));
-    color: hsl(var(--foreground));
-    border: 2px solid hsl(var(--border));
-    box-shadow: 3px 3px 0 hsl(var(--background));
-  }
-  .btn-ghost-pixel:hover {
-    background: hsl(var(--surface-2));
-    border-color: hsl(var(--accent));
-    color: hsl(var(--accent));
-    box-shadow: 3px 3px 0 hsl(var(--background)), 0 0 12px hsl(var(--accent) / 0.4);
-  }
-
-  .btn-gold-pixel {
-    @apply font-pixel uppercase inline-flex items-center justify-center gap-2 px-6 py-3 transition-all;
-    font-size: 10px;
-    background: hsl(var(--hb-gold));
-    color: hsl(var(--hb-deep));
-    border: 2px solid hsl(var(--hb-coral));
-    box-shadow:
-      0 5px 0 hsl(var(--hb-coral) / 0.9),
-      5px 5px 0 hsl(var(--background));
-    position: relative;
-    text-shadow: 1px 1px 0 hsl(var(--hb-sun));
-  }
-  .btn-gold-pixel:hover {
-    transform: translate(-1px, -1px);
-    box-shadow:
-      0 6px 0 hsl(var(--hb-coral) / 0.9),
-      6px 6px 0 hsl(var(--background)),
-      0 0 24px hsl(var(--hb-gold) / 0.6);
-  }
-
-  /* Panel pixel */
-  .panel-pixel {
-    background: hsl(var(--surface));
-    border: 2px solid hsl(var(--border));
-    box-shadow:
-      6px 6px 0 hsl(var(--background)),
-      inset 0 0 0 1px hsl(var(--accent) / 0.08);
-  }
-  .panel-deep {
-    background: hsl(var(--background));
-    border: 2px solid hsl(var(--border));
-  }
-  .panel-glow {
-    background: hsl(var(--surface));
-    border: 2px solid hsl(var(--accent));
-    box-shadow:
-      6px 6px 0 hsl(var(--background)),
-      0 0 24px hsl(var(--accent) / 0.35),
-      inset 0 0 0 1px hsl(var(--accent) / 0.4);
-  }
-
-  /* Input pixel */
-  .input-pixel {
-    @apply w-full px-3 py-3 transition-colors;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
-    background: hsl(var(--background));
-    color: hsl(var(--foreground));
-    border: 2px solid hsl(var(--border));
-  }
-  .input-pixel:focus {
-    outline: none;
-    border-color: hsl(var(--accent));
-    box-shadow: 0 0 0 2px hsl(var(--accent) / 0.3);
-  }
-
-  /* Eyebrow */
-  .eyebrow {
-    @apply font-pixel uppercase;
-    font-size: 9px;
-    letter-spacing: 0.35em;
-    color: hsl(var(--ink-mute));
-  }
-
-  /* Capas atmosféricas */
-  .pixel-grid {
-    background-image:
-      linear-gradient(hsl(var(--accent) / 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--accent) / 0.04) 1px, transparent 1px);
-    background-size: 16px 16px;
-  }
-  .scanlines {
-    background: repeating-linear-gradient(0deg,
-      transparent, transparent 2px,
-      hsl(var(--background) / 0.22) 2px, hsl(var(--background) / 0.22) 3px);
-  }
-
-  /* Vignette */
-  .vignette::after {
-    content: ''; position: absolute; inset: 0; pointer-events: none;
-    background: radial-gradient(ellipse 70% 70% at 50% 50%, transparent 35%, hsl(var(--background)) 100%);
-  }
-
-  /* Borde recortado pixel-art (escalera) */
-  .pixel-corner {
-    clip-path: polygon(
-      0 8px, 4px 8px, 4px 4px, 8px 4px, 8px 0,
-      calc(100% - 8px) 0, calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, 100% 8px,
-      100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) 100%,
-      8px 100%, 8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 0 calc(100% - 8px)
-    );
-  }
-
-  /* Glow text */
-  .text-glow { text-shadow: 0 0 12px hsl(var(--glow) / 0.8), 0 2px 0 hsl(var(--background)); }
-  .text-stroke { -webkit-text-stroke: 1px hsl(var(--background)); }
-  .text-pixel-shadow {
-    text-shadow:
-      2px 2px 0 hsl(var(--background)),
-      4px 4px 0 hsl(var(--hb-deep) / 0.6);
-  }
+* {
+  box-sizing: border-box;
 }
 
-@layer utilities {
-  .bg-surface { background-color: hsl(var(--surface)); }
-  .bg-surface-2 { background-color: hsl(var(--surface-2)); }
-  .text-ink { color: hsl(var(--ink)); }
-  .text-ink-soft { color: hsl(var(--ink-soft)); }
-  .text-ink-mute { color: hsl(var(--ink-mute)); }
-  .border-border-strong { border-color: hsl(var(--border)); }
-  .shadow-pixel { box-shadow: var(--shadow-pixel); }
-  .shadow-pixel-lg { box-shadow: var(--shadow-pixel-lg); }
-  .shadow-glow { box-shadow: var(--shadow-glow); }
-  .bg-hero-gradient { background: var(--gradient-hero); }
-  .bg-accent-gradient { background: var(--gradient-accent); }
+html,
+body {
+  margin: 0;
+  min-height: 100%;
 }
 
-/* =================  ANIMACIONES  ================= */
-@keyframes float-soft {
-  0%, 100% { transform: translateY(0) rotate(-1deg); }
-  50%      { transform: translateY(-10px) rotate(1deg); }
-}
-@keyframes flap {
-  0%, 100% { transform: scaleX(1) scaleY(1); }
-  50%      { transform: scaleX(1.04) scaleY(0.96); }
-}
-@keyframes ring-pulse {
-  0%, 100% { r: 22; opacity: 0.55; }
-  50%      { r: 32; opacity: 0.1; }
-}
-@keyframes ring-pulse-2 {
-  0%, 100% { r: 30; opacity: 0.3; }
-  50%      { r: 42; opacity: 0.05; }
-}
-@keyframes flicker {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.5; }
-}
-@keyframes scroll-x {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-@keyframes dust-rise {
-  0%   { opacity: 0.9; transform: translateY(0) scale(1); }
-  100% { opacity: 0;   transform: translateY(-30px) scale(2.2); }
-}
-@keyframes shimmer {
-  0%   { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-@keyframes spark {
-  0%, 100% { opacity: 0.35; }
-  50%      { opacity: 1; }
-}
-@keyframes title-rise {
-  0%   { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-@keyframes node-bob {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-3px); }
-}
-@keyframes boss-breathe {
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 24px hsl(var(--accent) / 0.5)); }
-  50%      { transform: scale(1.015); filter: drop-shadow(0 0 36px hsl(var(--accent) / 0.7)); }
-}
-@keyframes scan-line {
-  0%   { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
+body {
+  background: radial-gradient(circle at top, rgba(0, 255, 255, 0.12), transparent 25%),
+              linear-gradient(180deg, #01020d 0%, #050814 100%);
+  color: var(--pixel-text);
+  font-family: 'Press Start 2P', monospace, sans-serif;
+  letter-spacing: 0.03em;
+  image-rendering: pixelated;
 }
 
-.animate-float-soft   { animation: float-soft 4.5s ease-in-out infinite; }
-.animate-flap         { animation: flap 0.45s ease-in-out infinite; transform-origin: center; }
-.animate-flicker      { animation: flicker 0.18s infinite; }
-.animate-scroll-slow  { animation: scroll-x 28s linear infinite; }
-.animate-scroll-mid   { animation: scroll-x 14s linear infinite; }
-.animate-scroll-fast  { animation: scroll-x 7s linear infinite; }
-.animate-spark        { animation: spark 1.6s ease-in-out infinite; }
-.animate-title-rise   { animation: title-rise 0.8s ease-out both; }
-.animate-node-bob     { animation: node-bob 2.5s ease-in-out infinite; }
-.animate-boss-breathe { animation: boss-breathe 4s ease-in-out infinite; }
-.animate-scan-line    { animation: scan-line 3s linear infinite; }
+.pixel-page {
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-/* SVG-specific keyframes */
-.svg-pulse circle { animation: ring-pulse 1.6s ease-in-out infinite; }
-.svg-pulse-2 circle { animation: ring-pulse-2 2s ease-in-out infinite; }
+.pixel-panel {
+  width: min(100%, 48rem);
+  background: var(--pixel-panel);
+  border: 4px solid var(--pixel-border);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+              0 16px 40px rgba(0, 0, 0, 0.45);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.pixel-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.04), transparent 25%);
+  pointer-events: none;
+}
+
+.pixel-title {
+  color: var(--pixel-accent);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  text-shadow: 0 0 4px rgba(0, 255, 255, 0.25);
+}
+
+.pixel-btn {
+  background: linear-gradient(180deg, rgba(0, 255, 255, 0.15), rgba(0, 255, 255, 0.04));
+  border: 2px solid var(--pixel-accent);
+  color: var(--pixel-text);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  font-family: inherit;
+  letter-spacing: 0.05em;
+}
+
+.pixel-btn:hover {
+  background: rgba(255, 61, 61, 0.14);
+}
+
+.pixel-input,
+.pixel-select {
+  background: rgba(0, 0, 0, 0.35);
+  border: 2px solid rgba(22, 255, 234, 0.55);
+  color: var(--pixel-text);
+  padding: 0.85rem 1rem;
+  font-family: inherit;
+  letter-spacing: 0.04em;
+}
+
+.pixel-input:focus,
+.pixel-select:focus {
+  outline: 2px solid var(--pixel-accent);
+  outline-offset: 2px;
+}
+
+.pixel-ticker {
+  margin-top: 1.25rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.45);
+  border: 2px dashed rgba(255, 255, 255, 0.12);
+  font-size: 0.75rem;
+  overflow: hidden;
+  white-space: nowrap;
+}
