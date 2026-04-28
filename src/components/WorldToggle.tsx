@@ -9,36 +9,23 @@ export const WorldToggle = () => {
   const setUnlocked = useGame((s) => s.setUnlocked);
 
   return (
-    <div className="fixed top-4 right-4 z-[9999] panel-pixel px-3 py-2 flex items-center gap-3 backdrop-blur-sm">
-      <span className="font-pixel text-[8px] text-ink-mute uppercase hidden sm:inline">
-        Mundo
-      </span>
-      <button
-        type="button"
-        onClick={() => setUnlocked(!unlocked)}
-        className="flex items-center gap-2 cursor-pointer group"
-        aria-label="Cambiar estado del mundo"
+    <button
+      type="button"
+      onClick={() => setUnlocked(!unlocked)}
+      aria-label="Cambiar versión del mundo"
+      className="fixed top-4 left-4 z-[9999] panel-pixel p-2 border border-border-strong bg-background/90 rounded-full shadow-lg"
+    >
+      <span
+        className={`relative block w-9 h-5 rounded-full border-2 border-border-strong transition-colors ${
+          unlocked ? "bg-emerald-500/20" : "bg-destructive/20"
+        }`}
       >
-        <span className="font-pixel text-[8px] text-accent uppercase">
-          {unlocked ? "Vital" : "Decadente"}
-        </span>
         <span
-          className={`relative w-10 h-5 border-2 border-border-strong bg-background transition-colors ${
-            unlocked ? "border-accent" : ""
+          className={`absolute top-[2px] w-3 h-3 rounded-full bg-accent transition-all ${
+            unlocked ? "left-[22px]" : "left-[2px]"
           }`}
-        >
-          <span
-            className={`absolute top-[2px] w-2 h-2 bg-accent transition-all ${
-              unlocked ? "left-[24px]" : "left-[2px]"
-            }`}
-          />
-        </span>
-        {unlocked ? (
-          <Unlock className="w-3 h-3 text-accent" />
-        ) : (
-          <Lock className="w-3 h-3 text-ink-mute" />
-        )}
-      </button>
-    </div>
+        />
+      </span>
+    </button>
   );
 };

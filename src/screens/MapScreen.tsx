@@ -23,13 +23,10 @@ export const MapScreen = () => {
       ? "Caminante del Sur"
       : completed >= 1
       ? "Aprendiz"
-      : "Forastero";
+      : "Novato";
+
 
   const onSelect = (loc: GuardianLocation) => {
-    if (loc.status === "locked") {
-      showNotif(`${loc.name} aún está sellado. Libera el destino anterior.`);
-      return;
-    }
     setActive(loc.key);
     setScreen("loading");
   };
@@ -64,13 +61,12 @@ export const MapScreen = () => {
           <ArrowLeft className="w-3 h-3" /> Salir
         </button>
 
-        <div className="flex items-center gap-3 flex-wrap">
+        <div className="flex flex-col items-start gap-1 text-left">
           <span className="font-pixel text-[8px] sm:text-[10px] text-ink uppercase">
             ✦ Guardianes del Sur ✦
           </span>
-          <span className="hidden sm:inline font-pixel text-[8px] text-ink-mute">|</span>
           <span className="font-pixel text-[8px] text-accent uppercase">
-            Tierra de Guardianes
+            Lugares Turísticos en Nariño
           </span>
         </div>
 
@@ -133,14 +129,16 @@ export const MapScreen = () => {
               stroke="hsl(var(--border))"
               strokeWidth="3"
             />
-            <rect x="6" y="6" width="788" height="488" fill="url(#grid)" />
+            <rect x="6" y="6" width="788" height="488" fill="url(#grid)" opacity="0.35" />
 
-            {/* Stylized rivers / paths between nodes */}
-            <g stroke="hsl(var(--accent))" strokeOpacity="0.35" strokeWidth="2" strokeDasharray="6 6" fill="none">
-              <path d={pathBetween(locations[0], locations[1])} />
-              <path d={pathBetween(locations[1], locations[2])} />
-              <path d={pathBetween(locations[1], locations[3])} />
-            </g>
+            {/* Nariño silhouette - very faint background reference */}
+            <path
+              d="M 200 90 Q 170 95 145 115 Q 125 135 120 160 Q 118 180 130 195 Q 145 205 165 208 Q 185 210 200 205 L 210 240 Q 215 260 225 268 Q 240 275 260 275 Q 275 273 285 265 Q 293 255 295 240 L 298 220 Q 305 195 308 170 Q 310 145 305 125 Q 298 105 285 95 Q 270 85 250 83 Q 230 82 210 85 L 200 90 M 308 170 Q 320 160 340 158 Q 365 156 378 168 Q 388 180 388 200 Q 386 220 375 230 Q 360 238 345 235 Q 328 230 320 215 Q 315 195 315 175 Q 314 172 308 170 Z"
+              fill="hsl(var(--surface))"
+              stroke="hsl(var(--accent))"
+              strokeWidth="2"
+              opacity="0.08"
+            />
 
             {/* Decorative compass */}
             <g transform="translate(720, 60)">
@@ -189,10 +187,9 @@ export const MapScreen = () => {
             <h2 className="font-pixel text-[10px] text-accent uppercase flex items-center gap-2">
               <MapPin className="w-3 h-3" /> Destinos por liberar
             </h2>
-            <div className="flex gap-3 mt-3 flex-wrap">
-              <LegendDot tone="active" label="Activo" />
-              <LegendDot tone="locked" label="Sellado" />
-              <LegendDot tone="done" label="Liberado" />
+                  <div className="flex gap-3 mt-3 flex-wrap">
+              <LegendDot tone="locked" label="Bloqueado" />
+              <LegendDot tone="unlocked" label="Liberado" />
             </div>
           </div>
           {locations.map((loc) => (
@@ -218,12 +215,6 @@ export const MapScreen = () => {
   );
 };
 
-const pathBetween = (a: GuardianLocation, b: GuardianLocation) => {
-  const mx = (a.x + b.x) / 2;
-  const my = (a.y + b.y) / 2 - 40;
-  return `M ${a.x} ${a.y} Q ${mx} ${my} ${b.x} ${b.y}`;
-};
-
 const MapNode = ({
   loc,
   onClick,
@@ -236,9 +227,8 @@ const MapNode = ({
   hovered: boolean;
 }) => {
   const colors = {
-    active: { fill: "hsl(var(--accent))", stroke: "hsl(var(--primary))" },
-    locked: { fill: "hsl(var(--muted))", stroke: "hsl(var(--ink-mute))" },
-    done:   { fill: "hsl(var(--hb-gold))", stroke: "hsl(var(--hb-jade))" },
+    locked: { fill: "hsl(0 65% 55%)", stroke: "hsl(var(--accent))" },
+    unlocked: { fill: "hsl(125 60% 48%)", stroke: "hsl(155 55% 68%)" },
   }[loc.status];
 
   return (
@@ -247,20 +237,8 @@ const MapNode = ({
       onClick={onClick}
       onMouseEnter={() => onHover(loc.key)}
       onMouseLeave={() => onHover(null)}
-      style={{ cursor: loc.status === "locked" ? "not-allowed" : "pointer" }}
+      style={{ cursor: "pointer" }}
     >
-      {/* Pulse rings only for active */}
-      {loc.status === "active" && (
-        <>
-          <g className="svg-pulse">
-            <circle r="22" fill="none" stroke={colors.fill} strokeWidth="2" />
-          </g>
-          <g className="svg-pulse-2">
-            <circle r="30" fill="none" stroke={colors.fill} strokeWidth="1.5" />
-          </g>
-        </>
-      )}
-
       {/* Pixel pin (octagon-ish) */}
       <polygon
         points="-12,-6 -6,-12 6,-12 12,-6 12,6 6,12 -6,12 -12,6"
@@ -277,7 +255,7 @@ const MapNode = ({
         fontSize="9"
         fill={colors.stroke}
       >
-        {loc.status === "locked" ? "✕" : loc.status === "done" ? "✓" : "▲"}
+        {loc.status === "locked" ? "✕" : "✓"}
       </text>
 
       {/* Label */}
@@ -307,32 +285,24 @@ const MapNode = ({
 };
 
 const StatusBadge = ({ status }: { status: GuardianLocation["status"] }) => {
-  if (status === "active") {
+  if (status === "unlocked") {
     return (
-      <span className="inline-flex items-center gap-1 font-pixel text-[7px] uppercase px-2 py-1 bg-accent text-accent-foreground">
-        <Sparkles className="w-2.5 h-2.5" /> Activo
-      </span>
-    );
-  }
-  if (status === "done") {
-    return (
-      <span className="inline-flex items-center gap-1 font-pixel text-[7px] uppercase px-2 py-1 bg-hb-gold text-background">
+      <span className="inline-flex items-center gap-1 font-pixel text-[7px] uppercase px-2 py-1 bg-emerald-500 text-background">
         ✓ Liberado
       </span>
     );
   }
   return (
-    <span className="inline-flex items-center gap-1 font-pixel text-[7px] uppercase px-2 py-1 bg-muted text-ink-mute border border-border-strong">
-      <Lock className="w-2.5 h-2.5" /> Sellado
+    <span className="inline-flex items-center gap-1 font-pixel text-[7px] uppercase px-2 py-1 bg-destructive text-background border border-red-600">
+      <Lock className="w-2.5 h-2.5" /> Bloqueado
     </span>
   );
 };
 
-const LegendDot = ({ tone, label }: { tone: "active" | "locked" | "done"; label: string }) => {
+const LegendDot = ({ tone, label }: { tone: "locked" | "unlocked"; label: string }) => {
   const cls = {
-    active: "bg-accent border-primary animate-flicker",
-    locked: "bg-muted border-ink-mute",
-    done: "bg-hb-gold border-hb-jade",
+    locked: "bg-destructive border-red-700",
+    unlocked: "bg-emerald-500 border-emerald-700",
   }[tone];
   return (
     <span className="flex items-center gap-2 font-pixel text-[6px] uppercase text-ink-mute">

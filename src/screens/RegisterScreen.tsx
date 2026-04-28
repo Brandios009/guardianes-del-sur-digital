@@ -9,6 +9,7 @@ export const RegisterScreen = () => {
   const showNotif = useGame((s) => s.showNotif);
 
   const [form, setForm] = useState({
+    username: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -20,10 +21,11 @@ export const RegisterScreen = () => {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!form.oath) {
-      showNotif("Debes jurar honrar los mitos del sur.");
+      showNotif("Acepta términos y condiciones para continuar el tour");
       return;
     }
     setPlayer({
+      username: form.username,
       firstName: form.firstName,
       lastName: form.lastName,
       email: form.email,
@@ -54,7 +56,7 @@ export const RegisterScreen = () => {
           <div className="flex justify-center lg:justify-start mb-6">
             <Colibri size={260} />
           </div>
-          <p className="eyebrow mb-3 animate-title-rise">— Nariño profundo · 2026 —</p>
+          <p className="eyebrow mb-3 animate-title-rise">— UCC Pasto —</p>
           <h1
             className="font-pixel leading-[1.15] mb-5 animate-title-rise text-pixel-shadow"
             style={{ animationDelay: "0.1s", fontSize: "clamp(22px, 4.2vw, 40px)" }}
@@ -66,14 +68,16 @@ export const RegisterScreen = () => {
             className="font-pixel text-[9px] text-ink-soft max-w-md mx-auto lg:mx-0 animate-title-rise normal-case"
             style={{ animationDelay: "0.25s", lineHeight: 2 }}
           >
-            Forja tu leyenda y despierta los destinos andinos. Cuatro santuarios
-            sellados aguardan: Las Lajas, La Cocha, Galeras y Juanambú.
+            Descubre Nariño.
+            Recorre, juega y deja que cada sitio te cuente su historia
+                  
+            
           </p>
 
           <div className="mt-7 flex flex-wrap gap-3 justify-center lg:justify-start animate-title-rise" style={{ animationDelay: "0.4s" }}>
             <Stat label="Destinos" value="4" />
-            <Stat label="Mitos" value="∞" />
-            <Stat label="Sur" value="Nariño" />
+            <Stat label="Guardianes" value="4" />
+           
           </div>
         </div>
 
@@ -84,20 +88,29 @@ export const RegisterScreen = () => {
           style={{ animationDelay: "0.2s" }}
         >
           <h2 className="font-pixel text-[10px] text-accent flex items-center gap-2 mb-2">
-            <Sparkles className="w-3 h-3" /> ▸ DATOS DEL GUARDIÁN
+            <Sparkles className="w-3 h-3" /> ▸ Registro 
           </h2>
           <p className="font-pixel text-[8px] text-ink-mute mb-6 normal-case" style={{ lineHeight: 2 }}>
-            Tu pacto será grabado en la piedra.
+            Guarda tu progreso en el turismo Nariñense
           </p>
 
           <div className="grid sm:grid-cols-2 gap-4">
+            <Field label="Nombre de registro" full>
+              <input
+                required
+                className="input-pixel"
+                value={form.username}
+                onChange={(e) => set("username", e.target.value)}
+                placeholder="usuario123"
+              />
+            </Field>
             <Field label="Nombre">
               <input
                 required
                 className="input-pixel"
                 value={form.firstName}
                 onChange={(e) => set("firstName", e.target.value)}
-                placeholder="Atahualpa"
+                placeholder="nombre"
               />
             </Field>
             <Field label="Apellido">
@@ -106,17 +119,17 @@ export const RegisterScreen = () => {
                 className="input-pixel"
                 value={form.lastName}
                 onChange={(e) => set("lastName", e.target.value)}
-                placeholder="Quillasinga"
+                placeholder="apellido"
               />
             </Field>
-            <Field label="Correo ancestral" full>
+            <Field label="Correo Electrónico" full>
               <input
                 required
                 type="email"
                 className="input-pixel"
                 value={form.email}
                 onChange={(e) => set("email", e.target.value)}
-                placeholder="@tribu.sur"
+                placeholder="@uccpasto"
               />
             </Field>
             <Field label="Edad">
@@ -130,7 +143,7 @@ export const RegisterScreen = () => {
                 placeholder="21"
               />
             </Field>
-            <Field label="Ciudad / Comunidad">
+            <Field label="Ciudad">
               <input
                 required
                 className="input-pixel"
@@ -142,7 +155,7 @@ export const RegisterScreen = () => {
           </div>
 
           <h3 className="font-pixel text-[10px] text-accent mt-7 mb-3">
-            ▸ VÍNCULO CON NARIÑO
+            ▸ Acepta los términos
           </h3>
 
           <label className="flex items-start gap-3 cursor-pointer group">
@@ -160,8 +173,9 @@ export const RegisterScreen = () => {
               )}
             </span>
             <span className="font-pixel text-[8px] text-ink-soft leading-[2] normal-case">
-              Juro honrar los mitos, los ríos y la naturaleza del sur, y
-              caminaré con los pies descalzos sobre la memoria de mis abuelos.
+              La información dada será utilizada para bases de datos para mejora del turismo en Nariño.
+              Y se guardará para futuras encuestas de satisfacción.
+              
             </span>
             <input
               type="checkbox"
@@ -172,7 +186,7 @@ export const RegisterScreen = () => {
           </label>
 
           <button type="submit" className="btn-pixel mt-7 w-full">
-            [ INICIAR PEREGRINAJE ]
+            [ Registrarse ]
             <ChevronRight className="w-3 h-3" />
           </button>
         </form>
@@ -211,6 +225,6 @@ const Stat = ({ label, value }: { label: string; value: string }) => (
 
 const Footer = () => (
   <div className="absolute bottom-3 left-0 right-0 text-center font-pixel text-[7px] text-ink-mute uppercase pointer-events-none">
-    ✦ Guardianes del Sur · Tierra de leyenda ✦
+    ✦Versión Beta✦
   </div>
 );

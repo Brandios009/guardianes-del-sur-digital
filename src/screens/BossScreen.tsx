@@ -17,11 +17,8 @@ export const BossScreen = () => {
   const { boss } = loc;
 
   const onStart = () => {
-    completeLocation(loc.key);
-    const doneNow = locations.filter((l) => l.status === "done").length + 1;
-    if (doneNow === 4) {
-      showNotif("¡El sur ha despertado! Eres Guardián Eterno.");
-    } else {
+    if (loc.status === "locked") {
+      completeLocation(loc.key);
       showNotif(`Has vencido a ${boss.name}. El sur agradece.`);
     }
     setScreen("map");
@@ -99,34 +96,21 @@ export const BossScreen = () => {
             </div>
 
             {/* Threat */}
-            <div className="mt-2 flex items-center justify-between font-pixel text-[7px] text-ink-mute uppercase">
-              <span className="flex items-center gap-1">
-                <Skull className="w-3 h-3 text-destructive" /> Amenaza
-              </span>
-              <span className="flex gap-0.5">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <span
-                    key={i}
-                    className={`w-2.5 h-2.5 border ${
-                      i < boss.threat
-                        ? "bg-destructive border-destructive"
-                        : "bg-transparent border-border-strong"
-                    }`}
-                  />
-                ))}
-              </span>
-            </div>
           </div>
 
           {/* Info */}
           <div className="flex flex-col">
-            <p className="eyebrow mb-2">▸ {boss.title}</p>
+            {boss.title && (
+              <p className="eyebrow mb-2">▸ {boss.title}</p>
+            )}
             <h2 className="font-pixel text-[16px] sm:text-[22px] text-ink leading-[1.3] text-pixel-shadow mb-4">
               {boss.name}
             </h2>
 
             <div className="flex gap-2 mb-5 flex-wrap">
-              <Tag icon={<Flame className="w-3 h-3" />} label={boss.element} />
+              {boss.element && (
+                <Tag icon={<Flame className="w-3 h-3" />} label={boss.element} />
+              )}
               <Tag icon={<Heart className="w-3 h-3" />} label={`HP ${boss.hp}`} />
             </div>
 
@@ -142,10 +126,25 @@ export const BossScreen = () => {
               </p>
             </div>
 
+            {loc.status === "locked" ? (
+              <div className="panel-deep p-4 mb-6 border-destructive border-2 text-destructive font-pixel text-[8px] uppercase">
+                Derrota al jefe para desbloquear toda la información turística del lugar.
+              </div>
+            ) : (
+              <div className="panel-deep p-4 mb-6">
+                <p className="font-pixel text-[8px] text-accent uppercase mb-3">
+                  — Información desbloqueada —
+                </p>
+                <p className="font-pixel text-[9px] text-ink-soft normal-case" style={{ lineHeight: 2 }}>
+                  {loc.tourism.summary}
+                </p>
+              </div>
+            )}
+
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-3 mt-auto">
               <button onClick={onStart} className="btn-gold-pixel flex-1">
-                <Sword className="w-3 h-3" /> [ COMENZAR ]
+                <Sword className="w-3 h-3" /> {loc.status === "locked" ? "[ DERROTAR ]" : "[ VOLVER AL MAPA ]"}
               </button>
               <button onClick={() => setHowOpen(true)} className="btn-ghost-pixel">
                 <HelpCircle className="w-3 h-3" /> Cómo jugar
@@ -154,8 +153,58 @@ export const BossScreen = () => {
           </div>
         </div>
 
+        {loc.status === "unlocked" && (
+          <section className="panel-pixel p-5 mt-8">
+            <div className="mb-4">
+              <h3 className="font-pixel text-[10px] text-accent uppercase mb-2">{loc.tourism.title}</h3>
+              <p className="font-pixel text-[9px] text-ink-soft leading-7 normal-case">
+                {loc.tourism.description}
+              </p>
+            </div>
+
+            <div className="grid gap-4 lg:grid-cols-[1fr_1fr] mb-4">
+              {loc.tourism.images.map((src, index) => (
+                <img
+                  key={index}
+                  src={src}
+                  alt={`${loc.tourism.title} ${index + 1}`}
+                  className="w-full h-40 object-cover border-2 border-border-strong"
+                  loading="lazy"
+                />
+              ))}
+            </div>
+
+            <div className="grid gap-4 lg:grid-cols-[1fr_1fr]">
+              <div>
+                <h4 className="font-pixel text-[8px] text-accent uppercase mb-2">Recomendaciones</h4>
+                <ul className="list-disc ml-4 font-pixel text-[9px] text-ink-soft leading-7">
+                  {loc.tourism.activities.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-pixel text-[8px] text-accent uppercase mb-2">Ubicación</h4>
+                <div className="aspect-video overflow-hidden border-2 border-border-strong">
+                  <iframe
+                    src={loc.tourism.mapUrl}
+                    title={`${loc.tourism.title} ubicación`}
+                    className="w-full h-full"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         <p className="text-center font-pixel text-[7px] text-ink-mute uppercase mt-6">
-          ✦ Que el colibrí guíe tu espada ✦
+          ✦ Santísima Señora de Las Lajas que has sido constituida como
+          <br />
+          Auxiliadora de los cristianos y bendices y proteges las casas dónde está
+          <br />
+          expuesta y es honrada tu sagrada imagen ✦
         </p>
       </div>
 

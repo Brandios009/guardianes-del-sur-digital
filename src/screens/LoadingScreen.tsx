@@ -3,11 +3,11 @@ import { useGame } from "@/store/game";
 import { Colibri } from "@/components/Colibri";
 
 const QUOTES = [
-  "El sur guarda la memoria del fuego primero.",
-  "Donde el río calla, el guardián escucha.",
-  "Quien camina la montaña, camina su sangre.",
-  "Los abuelos hablan en el viento del páramo.",
-  "Toda piedra de Nariño tiene un nombre.",
+  "Cuidado en el monte, que el Duende te trenza el pelo y te pierde en la niebla",
+  "Pueblo pequeño, infierno grande",
+  "Donde la tierra se enamoró, nació la Laguna de La Cocha, espejo del cielo",
+  "No aceptes dulces de extraños en la quebrada; son heces que el Duende regala",
+  "A altas horas de la noche, no todo lo que llora es humano, ni todo lo que brilla es oro",
 ];
 
 export const LoadingScreen = () => {
@@ -122,13 +122,11 @@ export const LoadingScreen = () => {
 
         {/* Lore strip */}
         <div className="panel-pixel px-6 py-5 text-center">
-          <p className="font-pixel text-[8px] text-accent uppercase mb-3">
-            — Relato del abismo —
-          </p>
+          
           <p className="font-pixel text-[9px] text-ink-soft normal-case" style={{ lineHeight: 2 }}>
-            "{loc.myth}"
+            "{quote}"
           </p>
-          <p className="font-pixel text-[7px] text-ink-mute mt-4 uppercase">— {quote} —</p>
+          <p className="font-pixel text-[7px] text-ink-mute mt-4 uppercase">— {loc.myth} —</p>
         </div>
       </div>
     </section>

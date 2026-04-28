@@ -39,35 +39,34 @@ export const HowToPlayModal = ({ open, onClose }: Props) => {
           <X className="w-4 h-4" />
         </button>
 
-        <p className="eyebrow mb-2">— Códice del Guardián —</p>
-        <h3 className="font-pixel text-[14px] sm:text-[16px] text-accent mb-5 text-glow leading-tight">
+        <p className="font-pixel text-[14px] sm:text-[16px] text-accent mb-5 text-glow leading-tight">
           ▸ CÓMO JUGAR
-        </h3>
+        </p>
 
         <ol className="space-y-4">
           <Rule
             icon={<Map className="w-3 h-3" />}
             num="01"
-            title="Explora el mapa del sur"
-            text="Cuatro santuarios sellados aguardan. Solo el destino activo (pulsando) puede ser liberado."
+            title="Controles"
+            text="wasd"
           />
           <Rule
             icon={<Sparkles className="w-3 h-3" />}
             num="02"
-            title="Viaja al santuario"
-            text="Selecciona el destino activo y cruza el camino del peregrino mientras la tierra te recibe."
+            title="Dispara"
+            text="pipipipi"
           />
           <Rule
             icon={<Sword className="w-3 h-3" />}
             num="03"
-            title="Enfrenta al guardián"
-            text="Cada lugar esconde un boss ancestral. Estudia su ficha antes de iniciar el combate."
+            title="Derrota al guardían"
+            text="er diabvlo"
           />
           <Rule
             icon={<Shield className="w-3 h-3" />}
             num="04"
-            title="Despierta el sur"
-            text="Vence a los 4 guardianes para alzar la luz del colibrí y devolver el color a Nariño."
+            title="Desbloquea información sobre el lugar"
+            text="juasjuas"
           />
         </ol>
 
