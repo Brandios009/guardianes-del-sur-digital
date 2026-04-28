@@ -1,9 +1,23 @@
 import { create } from "zustand";
+import bossLajas from "@/assets/boss-lajas.png";
+import bossCocha from "@/assets/boss-cocha.png";
+import bossGaleras from "@/assets/boss-galeras.png";
+import bossJuanambu from "@/assets/boss-juanambu.png";
 
-export type Screen = "register" | "map" | "loading" | "destiny";
+export type Screen = "register" | "map" | "loading" | "boss" | "destiny";
 
 export type LocationKey = "lajas" | "cocha" | "galeras" | "juanambu";
 export type LocationStatus = "locked" | "active" | "done";
+
+export interface BossInfo {
+  name: string;
+  title: string;
+  description: string;
+  image: string;
+  element: string;
+  hp: number;
+  threat: 1 | 2 | 3 | 4 | 5;
+}
 
 export interface GuardianLocation {
   key: LocationKey;
@@ -12,6 +26,7 @@ export interface GuardianLocation {
   lore: string;
   myth: string;
   status: LocationStatus;
+  boss: BossInfo;
   // SVG node coords (viewBox 0 0 800 500)
   x: number;
   y: number;
@@ -54,6 +69,16 @@ const initialLocations: GuardianLocation[] = [
     status: "active",
     x: 180,
     y: 340,
+    boss: {
+      name: "Aurix, Sombra del Guáitara",
+      title: "El Demonio del Puente",
+      description:
+        "Espíritu encadenado que durante siglos rugió bajo el cañón. Forjado en envidia y oscuridad, intenta sellar el santuario con bruma escarlata. Solo la fe del peregrino puede romper sus cadenas.",
+      image: bossLajas,
+      element: "Sombra · Piedra",
+      hp: 1200,
+      threat: 3,
+    },
   },
   {
     key: "cocha",
@@ -64,6 +89,16 @@ const initialLocations: GuardianLocation[] = [
     status: "locked",
     x: 540,
     y: 220,
+    boss: {
+      name: "Yacumama, Madre de las Aguas",
+      title: "La Serpiente del Lago Sagrado",
+      description:
+        "Antigua serpiente acuática de escamas turquesas que custodia los secretos del Guamuez. Cuando enfurece, el agua se vuelve espejo negro y devora a quien no sepa callar.",
+      image: bossCocha,
+      element: "Agua · Niebla",
+      hp: 1450,
+      threat: 4,
+    },
   },
   {
     key: "galeras",
@@ -74,6 +109,16 @@ const initialLocations: GuardianLocation[] = [
     status: "locked",
     x: 320,
     y: 160,
+    boss: {
+      name: "Urcunina, Coloso del Magma",
+      title: "El Titán del Fuego Andino",
+      description:
+        "Gigante de obsidiana con grietas de lava viva. Despierta cuando los Quillasingas son olvidados. Cada uno de sus pasos hace temblar a Pasto y enciende el cielo en cenizas.",
+      image: bossGaleras,
+      element: "Fuego · Tierra",
+      hp: 1800,
+      threat: 5,
+    },
   },
   {
     key: "juanambu",
@@ -84,6 +129,16 @@ const initialLocations: GuardianLocation[] = [
     status: "locked",
     x: 660,
     y: 380,
+    boss: {
+      name: "Mayasquer, Espectro del Cañón",
+      title: "Guardián de los Caídos",
+      description:
+        "Guerrero ancestral que cayó defendiendo el sur. Su espíritu camina entre la niebla del cañón con plumas de jade y machete espectral. Solo respeta al valiente que no huye.",
+      image: bossJuanambu,
+      element: "Espíritu · Selva",
+      hp: 1600,
+      threat: 4,
+    },
   },
 ];
 
@@ -106,7 +161,6 @@ export const useGame = create<GameState>((set, get) => ({
       if (l.key === k) return { ...l, status: "done" as LocationStatus };
       return l;
     });
-    // Activate the next locked one
     const order: LocationKey[] = ["lajas", "cocha", "galeras", "juanambu"];
     const idx = order.indexOf(k);
     const next = order[idx + 1];
